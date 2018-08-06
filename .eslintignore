@@ -1,0 +1,9 @@
+/build/
+/config/
+/src/dist/
+/src/mock/
+/src/api/
+/src/utlis/
+/src/components/editor/
+/*.js
+/*.vue
