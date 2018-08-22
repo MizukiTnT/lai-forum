@@ -1,4 +1,5 @@
 <template>
+<div class="haeder">
   <div class="header-wrapper">
     <el-row class="banner">
       <el-col class="" :span="15">
@@ -26,7 +27,7 @@
                 <img src="../../assets/images/timg.jpg">
               </div>
               <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item><router-link to="/userCenter/myAccount/1">个人中心</router-link></el-dropdown-item>
+                <el-dropdown-item><router-link to="/userCenter/account/1">个人中心</router-link></el-dropdown-item>
                 <el-dropdown-item><router-link to="/userCenter">账号设置</router-link></el-dropdown-item>
                 <el-dropdown-item>退出登录</el-dropdown-item>
               </el-dropdown-menu>
@@ -36,18 +37,25 @@
       </el-col>
     </el-row>
   </div>
+  <div class="placeholder"></div>
+</div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
 export default {
   data () {
     return {
-      searchItem: ''
+      searchItem: '',
+      scroll: 0
     }
   },
   computed: {
-    ...mapGetters (['isLoggin'])
+    isLoggin () {
+      return this.$store.getters.isLoggin
+    },
+    replace () {
+      return this.scroll > 0
+    }
   },
   methods: {
     showLoggin () {
@@ -59,8 +67,14 @@ export default {
 
 <style lang="stylus">
   .header-wrapper {
+    position fixed
+    left 0
+    top 0
+    width 100%
+    z-index 10000
     background-color #fff
     border-bottom 1px solid b-fir
+    height 63px
     .banner {
       margin 0 auto
       width 1200px
@@ -118,5 +132,8 @@ export default {
         }
       }
     }
+  }
+  .placeholder {
+    height 63px
   }
 </style>

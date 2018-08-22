@@ -6,10 +6,10 @@
       <el-button class="sort" type="text" autofocus>本日</el-button>
     </div>
     <ul class="news">
-      <li>
-        <div class="title">
-          <span>1.</span>
-          <router-link to=""> 213213212</router-link>
+      <li class="title" v-for="(item, index) in comments" :key="item.id">
+        <div>
+          <span>{{index + 1}}. </span>
+          <router-link to="" class="link">{{item.title}}</router-link>
         </div>
       </li>
     </ul>
@@ -17,12 +17,23 @@
 </template>
 
 <script>
+import {fetchHot} from '@/api/article'
 export default {
-
+  data () {
+    return {
+      sort: 0,
+      comments: []
+    }
+  },
+  async mounted () {
+    let _this = this
+    let res = await fetchHot({sort: _this.sort})
+    this.comments = res.data
+  }
 }
 </script>
 
-<style lang="stylus">
+<style lang="stylus" scoped>
   .comment {
     .header {
       .sort {
@@ -32,15 +43,15 @@ export default {
         &:hover {
           text-decoration underline
         }
-        &:focus {
-          color c-main
+        &.active {
           text-decoration underline
         }
       }
     }
     .news {
+      list-style none
       .title {
-        padding 5px 0
+        padding 10px 0
         font-size 16px
         border-bottom 1px dashed b-trd
         span {

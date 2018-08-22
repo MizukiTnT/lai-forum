@@ -55,7 +55,7 @@ export default new Router({
           }
         },
         {
-          path: 'myAccount/:list',
+          path: 'account/:list',
           component: _import('myAccount'),
           props: true,
           meta: {

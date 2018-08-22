@@ -23,3 +23,27 @@ export function fetchHot (data) {
     data: data
   })
 }
+
+export function fetchComment (data) {
+  return request({
+    url: '/article/comment',
+    method: 'post',
+    data: data
+  })
+}
+
+export function fetchArticleById (data) {
+  return request({
+    url: '/article/article',
+    method: 'post',
+    data: data
+  })
+}
+
+export function fetchRecColumn (data) {
+  return request({
+    url: '/article/column',
+    method: 'post',
+    data: data
+  })
+}

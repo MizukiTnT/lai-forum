@@ -15,13 +15,17 @@
       <el-form-item label="用户名">
         <el-input v-model="formData.nickName"></el-input>
       </el-form-item>
-      <el-form-item label="真实姓名">
-        <el-input v-model="formData.realName"></el-input>
+      <el-form-item label="生日">
+        <el-date-picker
+          v-model="formData.birthday"
+          type="date"
+          placeholder="选择日期">
+        </el-date-picker>
       </el-form-item>
       <el-form-item label="性别">
         <el-radio v-model="formData.gender" label="male">男</el-radio>
         <el-radio v-model="formData.gender" label="female">女</el-radio>
-        <el-radio v-model="formData.gender" label="unknow">未知</el-radio>
+        <el-radio v-model="formData.gender" label="unknow">保密</el-radio>
       </el-form-item>
       <el-form-item label="职业">
         <el-input v-model="formData.work"></el-input>
@@ -53,6 +57,7 @@
         <el-button style="width: 100%" type="primary">提交</el-button>
       </el-form-item>
     </el-form>
+
   </div>
 </template>
 
@@ -66,9 +71,9 @@ export default {
         open: true,
         profile: '',
         nickName: '',
-        realName: '',
         gender: 'unknow',
         work: '',
+        birthday: '',
         allow_msg: true
       }
     }
@@ -77,17 +82,21 @@ export default {
     beforeAvatarUpload (file) {
       const isJPG = file.type === 'image/jpeg'
       const isLt2M = file.size / 1024 / 1024 < 2
-
       if (!isJPG) {
         this.$message.error('上传头像图片只能是 JPG 格式!')
+        return false
       }
       if (!isLt2M) {
         this.$message.error('上传头像图片大小不能超过 2MB!')
+        return false
       }
-      return isJPG && isLt2M
+      console.log(file)
     },
     handleAvatarSuccess (res, file) {
       this.formData.imageUrl = URL.createObjectURL(file.raw)
+    },
+    handleUpload (res, file) {
+
     }
   }
 }

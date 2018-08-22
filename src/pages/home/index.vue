@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import recommend from './recommend'
+import recommend from '@/components/recommend'
 import detail from '@/components/detail'
 import { fetchHot } from '@/api/article'
 export default {

@@ -1,5 +1,6 @@
 # vue-talking
 
+一个自己做的vue类似论坛类似信息发布的网站
 > lai forum
 
 ## Build Setup

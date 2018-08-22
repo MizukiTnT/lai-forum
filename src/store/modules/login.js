@@ -8,17 +8,9 @@ const loggin = {
     token: null
   },
   mutations: {
-    SET_AVATAR: (state, avatar) => {
-      state.avatar = avatar
-    },
-    SET_NAME: (state, name) => {
-      state.name = name
-    },
-    SET_DETAIL: (state, detail) => {
-      state.detail = detail
-    },
-    SHOW_LOGGIN: (state, isClick) => {
-      state.isClick = isClick
+    // 之所以给出这么多mutarion 而不是一次赋值 则是因为在用户中心中有对单个项目的修改
+    SET_USERINFO: (state, userInfo) => {
+      state.info = userInfo
     },
     SET_TOKEN: (state, token) => {
       state.token = token
@@ -29,6 +21,7 @@ const loggin = {
       return new Promise((resolve, reject) => {
         login(infos).then(res => {
           const data = res.data
+          commit('SET_USERINFO', data.userInfo)
           commit('SET_TOKEN', data.token)
           setToken(data.token)
           resolve()

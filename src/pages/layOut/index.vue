@@ -7,8 +7,8 @@
       <el-main>
         <router-view></router-view>
       </el-main>
-      <el-footer>222</el-footer>
     </el-container>
+    <lfooter></lfooter>
     <login></login>
   </div>
 </template>
@@ -16,6 +16,7 @@
 <script>
 import lheader from './header'
 import login from '@/components/login'
+import lfooter from './footer'
 export default {
   data () {
     return {
@@ -28,7 +29,7 @@ export default {
   computed: {
   },
   components: {
-    lheader, login
+    lheader, login, lfooter
   },
   methods: {
 

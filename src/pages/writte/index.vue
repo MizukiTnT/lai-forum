@@ -15,7 +15,6 @@
 </template>
 
 <script>
-import { quillEditor } from 'vue-quill-editor'
 import editor from '@/components/editor'
 export default {
   name: 'app',

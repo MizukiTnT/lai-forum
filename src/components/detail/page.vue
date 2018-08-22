@@ -22,13 +22,13 @@
       </el-row>
       <el-row :gutter="20" class="zt">
         <el-col :span="8">
-          <router-link to="list">
+          <router-link to="">
             <img src="@/assets/images/example.jpg" alt="小图">
           </router-link>
         </el-col>
         <el-col class="details" :span="16">
           <router-link to="" class="title">{{item.title}}</router-link>
-          <router-link to="" class="content">{{item.content}}</router-link>
+          <div to="" class="content">{{item.content}}</div>
         </el-col>
       </el-row>
       <div class="operation">
