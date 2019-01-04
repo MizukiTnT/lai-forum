@@ -12,12 +12,12 @@ export default new Router({
       redirect: '/home'
     },
     {
-      name: 'home',
       path: '/home',
       component: layOut,
       redirect: '/home/index/1',
       children: [
         {
+          name: 'home',
           path: 'index/:sort',
           component: _import('home'),
           props: true,
@@ -29,13 +29,13 @@ export default new Router({
       ]
     },
     {
-      name: 'writte',
       path: '/writte',
       component: layOut,
-      redirect: '/writte/index',
+      redirect: '/writte/edit',
       children: [
         {
-          path: 'index',
+          name: 'editor',
+          path: 'edit',
           component: _import('writte')
         }
       ]
@@ -47,6 +47,7 @@ export default new Router({
       component: layOut,
       children: [
         {
+          name: 'edit',
           path: 'editor/:page',
           component: _import('userCenter'),
           props: true,
@@ -55,6 +56,7 @@ export default new Router({
           }
         },
         {
+          name: 'userCenter',
           path: 'account/:list',
           component: _import('myAccount'),
           props: true,
@@ -76,6 +78,19 @@ export default new Router({
           component: _import('article')
         }
       ]
+    },
+    {
+      path: '/search',
+      name: 'search',
+      component: layOut,
+      redirect: '/search/query',
+      children: [
+        {
+          path: 'query/',
+          component: _import('search')
+        }
+      ]
     }
   ]
+  // base: '/talking/'
 })

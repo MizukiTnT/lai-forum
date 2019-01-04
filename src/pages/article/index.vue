@@ -2,7 +2,7 @@
   <div class="article-page">
     <el-row :gutter="30">
       <!-- 左侧收藏栏 _S -->
-      <el-col :xs="0" :span="4">
+      <el-col class="hidden-sm-and-down" :xs="4" :sm="4" :md="4" :lg="4" :xl="4">
         <div class="comment">
           <div class="icon">
             <div class="to-comment"><i class="el-icon-edit"></i> 去评论</div>
@@ -22,7 +22,7 @@
       </el-col>
       <!-- 左侧收藏栏 _E -->
       <!-- 文章主体 _S -->
-      <el-col :xs="24" class="text-wrapper" :span="14">
+      <el-col :xs="24" :sm="14" :md="14" :lg="14" class="text-wrapper" :span="14">
         <div class="title">{{article.title}}</div>
         <div class="name">
           <span>作者：{{article.name}}</span>
@@ -39,9 +39,19 @@
           <div v-html="template" class="ql-editor"></div>
         </div>
         <!-- 富文本内容 _E -->
+        <!-- 投票内容 _S -->
+        <div class="vote">
+          <vote-template v-if="article.allow_vote"
+            :voteList="article.voteList"
+            :vote_title="article.vote_title"
+            :allow_checkbox="article.allow_checkbox"
+            :id="articleId"
+          ></vote-template>
+        </div>
+        <!-- 投票内容 _E -->
         <el-row :gutter="20" class="to-share">
-          <el-col :span="4">分享至</el-col>
-          <el-col class="trilateral" :span="20">
+          <el-col :span="6">分享至</el-col>
+          <el-col class="trilateral" :span="18">
             <el-popover
               placement="top"
               class="cursor"
@@ -118,7 +128,7 @@
       </el-col>
       <!-- 文章主体 _E -->
       <!-- 右侧拓展栏 _S -->
-      <el-col :xs="0" :span="6">
+      <el-col :xs="0" :sm="10" :md="6" :lg="6">
         <div class="column">
           <el-row class="head" :gutter="20">
             <el-col class="pic" :span="4">
@@ -144,7 +154,7 @@
             <router-link to="">{{recColumn.recommendTitle}}</router-link>
           </div>
         </div>
-        <rec></rec>
+        <rec limit="274"></rec>
       </el-col>
       <!-- 右侧拓展栏 _E -->
     </el-row>
@@ -154,27 +164,31 @@
 <script>
 import 'element-ui/lib/theme-chalk/display.css'
 import rec from '@/components/recommend'
+import voteTemplate from '@/components/vote/vote_template'
 import {parseTime} from '@/utlis'
 import {fetchArticleById, fetchRecColumn} from '@/api/article'
 export default {
   data () {
     return {
-      template: `<ul><li class="ql-indent-1">请输入内容</li></ul>`,
-      discuss: '',
-      buttonFlag: false,
+      template: `<ul><li class="ql-indent-1">请输入内容</li></ul>`, // 富文本模板
+      discuss: '', // 对于当前文章的评论内容
+      buttonFlag: false, // 是否显示对当前文章评论的按钮
       isliked: true,
-      replyValue: '',
-      replyId: '',
-      articleId: '',
-      article: '',
-      recColumn: '',
-      showIndex: null,
-      page: 0,
-      recSize: 5
+      replyValue: '', // 回复评论的内容
+      replyId: '', // 当前回复的评论的id
+      articleId: '', // 文章id
+      article: '', // 文章内容主题
+      recColumn: {}, // 右侧专栏内容
+      showIndex: null, // 页面显示具体回复框
+      page: 0, // 回复页面
+      recSize: 5 // 每页回复内容
     }
   },
   components: {
-    rec
+    rec, voteTemplate
+  },
+  watch: {
+    '$route': 'getArticle'
   },
   methods: {
     handleFocus () {
@@ -204,18 +218,20 @@ export default {
     },
     showReply (index) {
       this.showIndex = index
+    },
+    async getArticle () {
+      this.id = this.$route.params.id
+      let res = await fetchRecColumn({page: this.page, id: this.articleId, size: this.recSize})
+      let article = await fetchArticleById({a: 'aaa'})
+      this.article = article.data
+      this.articleId = this.article.id
+      this.recColumn = res.data
+      console.log(this.article,this.articleId,this.recColumn)
     }
+
   },
-  async created () {
-    let res = await fetchArticleById({a: 'aaa'})
-    this.article = res.data
-    this.articleId = this.article.id
-    console.log(this.article)
-  },
-  async mounted () {
-    let res = await fetchRecColumn({page: this.page, id: this.articleId, size: this.recSize})
-    this.recColumn = res.data
-    console.log(this.recColumn)
+  mounted () {
+    this.getArticle()
   },
   filters: {
     formatTime: (value) => {
@@ -275,6 +291,7 @@ export default {
       }
     }
     .column {
+      position relative
       background-color #fff
       padding 20px
       margin-bottom 15px
@@ -289,6 +306,11 @@ export default {
         }
         .tit {
           a {
+            display inline-block
+            width 100%
+            overflow hidden
+            text-overflow ellipsis
+            white-space nowrap
             &:hover {
               color #fd5353
             }
@@ -307,8 +329,11 @@ export default {
         }
       }
       .catlog {
+        text-overflow ellipsis
+        white-space nowrap
+        overflow hidden
         margin-top 5px
-        font-size 13px
+        font-size 12px
         color c-sub
       }
       .hasfocus {
@@ -331,6 +356,11 @@ export default {
           color c-comm
         }
         a {
+          display inline-block
+          width 100%
+          overflow hidden
+          text-overflow ellipsis
+          white-space nowrap
           &:hover {
             color #0e4d8c
           }

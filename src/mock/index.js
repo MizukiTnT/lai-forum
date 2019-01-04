@@ -1,6 +1,7 @@
 import Mock from 'mockjs'
 import articleAPI from './article'
 import logginAPI from './login'
+import common from './common'
 
 // 获取首页文章列表
 Mock.mock('/article/list', 'post', articleAPI.getList)
@@ -14,4 +15,5 @@ Mock.mock('/login/login', 'post', logginAPI.login)
 Mock.mock('/login/getCode', 'get', logginAPI.getSrvCode )
 Mock.mock('/login/logout', 'get', logginAPI.logout )
 
+Mock.mock('/common/search', 'post', common.search)
 export default Mock

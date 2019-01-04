@@ -87,16 +87,20 @@ export default {
       },
       hasFocus: false,
       comment: [],
-      scrollTop: 0, // 滚动距离
       top: 580, // 触顶距离
       bottom: 510,
       screenHeight: '', // 屏幕可视高度
-      domHeight: '' // 文档高度
+      domHeight: '', // 文档高度
+      itemHeight: 152, // 推荐栏每一项的高度
+      padding: 40 // 推荐栏上线边距和
     }
   },
   computed: {
     avatar () {
       return this.$store.getters.userInfo.avatar
+    },
+    scrollTop () { // 因为怕改变变量出错 继续使用原来的变量
+      return this.$store.getters.top
     },
     isFixed () {
       return this.scrollTop >= this.top
@@ -105,26 +109,33 @@ export default {
       return this.domHeight - (this.scrollTop + this.screenHeight) >= this.bottom
     }
   },
-  mounted () {
-    this.screenHeight = window.innerHeight - 103
-    window.addEventListener('scroll', this.handleScroll)
-    window.addEventListener('resize', this.handleResize)
-  },
   async created () {
     let res = await fetchComment({uid: 31231})
     this.comment = res.data
+    this.screenHeight = window.innerHeight - 103
+    if (this.screenHeight - 103 > this.comment.length * this.itemHeight + this.padding) { // 如果右侧推荐栏总高度小于屏幕高度则还原本来高度
+      this.screenHeight = this.comment.length * this.itemHeight
+      console.log(this.comment.length * 135)
+    }
   },
   methods: {
     handleFocus (index) {
       this.comment[index].isFocus = !this.comment[index].isFocus
     },
     handleScroll () {
-      this.scrollTop = document.documentElement.scrollTop || document.body.scrollTop
       this.domHeight = document.body.offsetHeight || document.documentElement.offsetHeight
     },
     handleResize () {
       this.screenHeight = window.innerHeight - 103
     }
+  },
+  mounted () {
+    window.addEventListener('scroll', this.handleScroll)
+    window.addEventListener('resize', this.handleResize)
+  },
+  destroyed () {
+    window.removeEventListener('scroll', this.handleScroll)
+    window.removeEventListener('resize', this.handleResize)
   }
 }
 </script>
@@ -210,7 +221,7 @@ export default {
       top -50px
       background-color #fff
       padding 20px
-      overflow scroll
+      overflow auto
       &.fixed {
         position fixed
         top 73px

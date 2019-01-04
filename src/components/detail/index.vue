@@ -3,7 +3,7 @@
     <div class="link-wrapper">
       <ul class="link">
         <li v-for="(item, index) in linkWord" :class="{active: index === currentIndex}" :key="index">
-          <router-link :to="{path: baseRoute + index}">{{item}}</router-link>
+          <router-link :to="{path: baseRoute + index}" replace>{{item}}</router-link>
         </li>
       </ul>
     </div>
@@ -49,9 +49,6 @@ export default {
     this.list = res.data.list
     if (res.data.toltalCount <= 10) this.isOver = true
   },
-  mounted () {
-    window.addEventListener('scroll', this.handleScroll)
-  },
   methods: {
     // 处理页面切换
     async handlePageChange (key) {
@@ -95,6 +92,12 @@ export default {
         }
       }
     }
+  },
+  mounted () {
+    window.addEventListener('scroll', this.handleScroll)
+  },
+  destroyed () {
+    window.removeEventListener('scroll', this.handleScroll)
   }
 }
 </script>

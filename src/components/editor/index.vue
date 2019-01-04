@@ -6,8 +6,9 @@
         <quill-editor ref="myTextEditor"
           v-model="content"
           :options="editorOption"
-          @change="onEditorBlur($event)"
-          @ready="onEditorReady()">
+          @blur="onEditorBlur"
+          @change="onEditorBlur"
+          @ready="onEditorReady">
         </quill-editor>
       </div>
       <el-upload
@@ -27,8 +28,9 @@
   export default {
     data () {
       return {
-        content: '请输入内容', // 富文本编辑内容
+        content: '', // 富文本编辑内容
         editorOption: {
+          placeholder: '请输入内容',
           modules: { // quill 印入模块
             toolbar: [ // 上方工具栏配置
               ['bold', 'italic', 'underline', 'strike'],
@@ -36,7 +38,6 @@
               [{ 'header': 1 }, { 'header': 2 }],
               [{ 'list': 'ordered' }, { 'list': 'bullet' }],
               [{ 'indent': '-1' }, { 'indent': '+1' }],
-              [{ 'direction': 'rtl' }],
               [{ 'size': ['small', false, 'large', 'huge'] }],
               [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
               [{ 'color': [] }, { 'background': [] }],
@@ -49,7 +50,7 @@
     },
     components: {quillEditor},
     methods: {
-      onEditorBlur(editor) {
+      onEditorBlur() {
         this.$emit('handleBlur', this.content)
       },
       onEditorReady () {

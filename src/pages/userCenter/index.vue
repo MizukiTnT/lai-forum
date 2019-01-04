@@ -1,8 +1,8 @@
 <template>
   <div class="userCenter">
     <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal">
-      <el-menu-item index="1"><router-link class="link" :to="{path: '/userCenter/editor/account'}">账号设置</router-link></el-menu-item>
-      <el-menu-item index="2"><router-link class="link" :to="{path: '/userCenter/editor/pass'}">修改密码</router-link></el-menu-item>
+      <el-menu-item index="1"><router-link class="link" :to="{path: '/userCenter/editor/account'}" replace>账号设置</router-link></el-menu-item>
+      <el-menu-item index="2"><router-link class="link" :to="{path: '/userCenter/editor/pass'}" replace>修改密码</router-link></el-menu-item>
     </el-menu>
     <transition name="el-fade-in-linear">
       <component :is="currentComponent"></component>

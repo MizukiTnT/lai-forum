@@ -10,6 +10,7 @@
     </el-container>
     <lfooter></lfooter>
     <login></login>
+    <right-tool></right-tool>
   </div>
 </template>
 
@@ -17,6 +18,7 @@
 import lheader from './header'
 import login from '@/components/login'
 import lfooter from './footer'
+import rightTool from './toTop'
 export default {
   data () {
     return {
@@ -29,7 +31,7 @@ export default {
   computed: {
   },
   components: {
-    lheader, login, lfooter
+    lheader, login, lfooter, rightTool
   },
   methods: {
 
@@ -41,25 +43,9 @@ export default {
   .home {
     background-color #f7f7f7
     .container {
-      width 1200px
+      max-width 1200px
       margin 0 auto
     }
-    .banner {
-      display flex
-      align-items center
-      >div {
-        margin-right 30px
-        display inline-block
-      }
-    }
   }
-  @media only screen and (max-width: 768px)
-    .home .container {
-      width 100%
-    }
 
-  @media only screen and (max-width: 600px)
-    .home .container {
-      width 600px
-    }
 </style>

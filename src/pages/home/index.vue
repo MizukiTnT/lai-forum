@@ -4,7 +4,7 @@
       <detail :sort="sort" :anchor="anchor" :baseRoute="baseRoute" :linkWord="linkWord"></detail>
     </el-col>
     <el-col :xs="0" :sm="8" :md="8" :lg="8" :xl="8">
-      <recommend :recommend="recommend"></recommend>
+      <recommend :recommend="recommend" limit="67"></recommend>
     </el-col>
   </el-row>
 </template>

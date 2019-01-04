@@ -1,36 +1,44 @@
 <template>
   <div class="page-wrapper">
+    <!-- 文章主体 _S -->
     <el-card
       v-for="item in list"
       shadow="hover"
       class="page"
       :key="item.id">
+      <!-- 用户信息 _S -->
       <el-row class="header">
-        <el-col :span="2" class="avatar">
+        <el-col class="avatar" :xs="4" :sm="2" :md="2" :lg="2">
           <img src="../../assets/images/timg.jpg" alt="">
         </el-col>
-        <el-col :span="18">
+        <el-col :xs="14" :sm="18" :md="18" :lg="18">
           <div class="user">
             <div class="name">{{item.name}}</div>
             <div class="annouce">{{item.synopsis}}</div>
           </div>
         </el-col>
-        <el-col class="condition" :span="4">
+        <el-col class="condition" :xs="6" :sm="4" :md="4" :lg="4">
           <div v-if="item.isTop" class="icon hot" >置顶</div>
           <div v-if="item.isHot" class="icon hot" >热帖</div>
         </el-col>
       </el-row>
+      <!-- 用户信息 _E -->
+
+      <!-- 文章梗概 _S -->
       <el-row :gutter="20" class="zt">
         <el-col :span="8">
-          <router-link to="">
+          <router-link :to="'/article/page/' + item.id ">
             <img src="@/assets/images/example.jpg" alt="小图">
           </router-link>
         </el-col>
         <el-col class="details" :span="16">
-          <router-link to="" class="title">{{item.title}}</router-link>
-          <div to="" class="content">{{item.content}}</div>
+          <router-link :to="'/article/page/' + item.id " class="title">{{item.title}}</router-link>
+          <router-link :to="'/article/page/' + item.id " class="content">{{item.content}}</router-link>
         </el-col>
       </el-row>
+      <!-- 文章梗概 _E -->
+
+      <!-- 操作栏 _S -->
       <div class="operation">
         <span>{{item.reading}}人阅读</span>
         <span>{{item.like}}赞</span>
@@ -38,7 +46,9 @@
         <span>{{item.collection}}收藏</span>
         <span class="time">2小时以前 </span>
       </div>
+      <!-- 操作栏 _E -->
     </el-card>
+    <!-- 文章主体 _E -->
   </div>
 </template>
 
@@ -52,8 +62,8 @@ export default {
       type: String
     }
   },
-  created () {
-
+  mounted () {
+    console.log(this.list)
   }
 }
 </script>
@@ -67,7 +77,7 @@ export default {
      margin-bottom 15px
      .avatar {
        img {
-         width 80%
+         max-width 80%
          border-radius 100%
        }
      }
@@ -78,6 +88,10 @@ export default {
         font-weight 600
       }
       .annouce {
+        width 100%
+        text-overflow ellipsis
+        overflow hidden
+        white-space nowrap
         margin-top 10px
         font-size 14px
         color c-sub
@@ -147,5 +161,40 @@ export default {
         }
       }
     }
+ }
+ @media screen and (max-width 900px) {
+   .operation {
+     display none !important
+   }
+ }
+ @media screen and (min-width 320px) and (max-width 768px){
+  .page .header .avatar img {
+    max-width 43px
+    height 43px
+  }
+  .page .zt .details .title {
+    font-size 14px
+  }
+  .page .zt .details .content {
+    margin-top 0
+    height: 41px;
+    font-size: 12px;
+    line-height: 20px;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+  }
+  .page .header .user .name {
+    font-size 14px
+  }
+  .page .header {
+    margin-bottom 7px
+  }
+  .link-wrapper .link {
+    display flex
+    flex-wrap nowrap
+  }
+  .link-wrapper .link li {
+    flex 1 1 auto
+  }
  }
 </style>

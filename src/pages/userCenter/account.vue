@@ -1,6 +1,6 @@
 <template>
   <div class="account">
-    <el-form label-position="left"  label-width="120px" class="form" :model="formData">
+    <el-form label-position="left"  :label-width="labelWidth" class="form" :model="formData">
       <el-form-item label="头像">
         <el-upload
           class="avatar-uploader load"
@@ -46,15 +46,16 @@
           active-color="#13ce66"
           inactive-color="#ff4949">
         </el-switch>
-        <span style="color:#606266;margin: 0 20px 0 30px">是否允许被私信</span>
+        <span style="color:#606266;margin-left: 10px">允许私信</span>
         <el-switch
           v-model="formData.allow_msg"
           active-color="#13ce66"
           inactive-color="#ff4949">
         </el-switch>
       </el-form-item>
+
       <el-form-item>
-        <el-button style="width: 100%" type="primary">提交</el-button>
+        <el-button style="width: 100%;margin-left: -30px"  type="primary">提交</el-button>
       </el-form-item>
     </el-form>
 
@@ -66,16 +67,22 @@ export default {
   data () {
     return {
       formData: {
-        imageUrl: '',
-        name: '',
-        open: true,
-        profile: '',
+        imageUrl: '', // 上传图片的地址
+        name: '', // 用户名
+        open: true, // 是否保密
+        profile: '', // 简介
         nickName: '',
-        gender: 'unknow',
-        work: '',
-        birthday: '',
-        allow_msg: true
+        gender: 'unknow', // 性别
+        work: '', // 工作
+        birthday: '', // 生日
+        allow_msg: true, // 允许私信
+        width: 0 // 检测宽度
       }
+    }
+  },
+  computed: {
+    labelWidth () {
+      return this.width > 768 ? (120 + 'px') : (70 + 'px')
     }
   },
   methods: {
@@ -97,19 +104,26 @@ export default {
     },
     handleUpload (res, file) {
 
+    },
+    getWidth () {
+      this.width = document.documentElement.clientWidth || document.body.clientWidth
     }
+  },
+  mounted () {
+    this.getWidth()
+    window.addEventListener('resize', this.getWidth)
   }
 }
 </script>
 
-<style lang="stylus">
+<style lang="stylus" scoped>
   .account {
     width 100%
     background-color #fff
     position relative
     padding 50px 0 70px
     .form {
-      width 600px
+      max-width 600px
       margin 0 auto
       padding 30px 100px 30px 25px
       border 1px solid b-fir
@@ -146,4 +160,32 @@ export default {
     }
   }
 
+  @media screen and (max-width 768px) {
+    .account {
+      padding 30px 0
+      .el-input {
+        width 100%
+      }
+      .form {
+        padding 30px
+        border none
+        .load {
+          .el-upload {
+            .avatar-uploader-icon {
+              font-size: 20px;
+
+              width: 70px;
+              height: 70px;
+              line-height: 70px;
+            }
+            .avatar {
+              width: 70px;
+              height: 70px;
+              display: block;
+            }
+          }
+        }
+      }
+    }
+  }
 </style>

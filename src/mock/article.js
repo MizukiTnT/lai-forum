@@ -1,8 +1,8 @@
 import Mock from "mockjs";
 // import { param2Obj } from '@/utlis'
-let count = 200
+let count = 15
 let list = []
-let commentCount = 10
+let commentCount = 1
 let comment = []
 let article = Mock.mock({
   id: '@natural()',
@@ -15,6 +15,19 @@ let article = Mock.mock({
   nextId: '@natural()',
   preTitle: '@ctitle(6, 10)',
   nextTitle: '@ctitle(6, 10)',
+  'allow_vote': true,
+  voteList: [
+    {
+      color: "#CC3232",
+      select: "3232"
+    },
+    {
+      color: "#8DAD0F",
+      select: "3232"
+    }
+  ],
+  'allow_checkbox|1': true,
+  vote_title: '@ctitle',
   'reply|5-20': [
     {
       name: '@cname',

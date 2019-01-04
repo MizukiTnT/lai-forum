@@ -1,5 +1,10 @@
 <template>
-  <el-card shadow="hover" class="comment">
+  <el-card
+    ref="rec"
+    shadow="hover"
+    class="comment"
+    :style="{width: rwidth + 'px'}"
+    :class="{pos: top > limit}">
     <div slot="header" class="header">
       <span>最热文章</span>
       <el-button class="sort" type="text">本周</el-button>
@@ -22,19 +27,46 @@ export default {
   data () {
     return {
       sort: 0,
-      comments: []
+      top: 0,
+      comments: [],
+      rwidth: 0
+    }
+  },
+  props: ['limit'],
+  methods: {
+    handleScroll () {
+      this.top = document.body.scrollTop || document.documentElement.scrollTop || window.pageYOffset
+    },
+    getFatherWidth () {
+      this.rwidth = this.$refs.rec.$parent.$parent.$el.clientWidth - 70
     }
   },
   async mounted () {
     let _this = this
+    this.getFatherWidth()
+    window.addEventListener('resize', this.getFatherWidth)
+    window.addEventListener('scroll', this.handleScroll)
     let res = await fetchHot({sort: _this.sort})
     this.comments = res.data
+  },
+  destroyed () {
+    window.removeEventListener('resize', this.getFatherWidth)
+    window.removeEventListener('scroll', this.handleScroll)
   }
+
 }
+
 </script>
 
 <style lang="stylus" scoped>
   .comment {
+    &.el-card {
+      transition all 0s
+    }
+    &.pos {
+      position fixed
+      top 83px
+    }
     .header {
       .sort {
         float right
